@@ -23,25 +23,7 @@ class GameState {
 
     this.input.onTap.add(this.reset, this)
 
-    this.sprite.body.onBeginContact.add(function (block, blockB, shapeA, shapeB, equation) {
-      let emitter = this.emitter
-      emitter.setYSpeed(-this.sprite.body.velocity.y * 4)
-      emitter.setXSpeed(-1000 + Math.random() * 1000)
-
-      emitter.setScale(0.02, 0.2, 0.01, 0.2)
-      emitter.x = this.sprite.x / emitter.scale.x
-      emitter.y = this.sprite.y / emitter.scale.y
-
-      emitter.start(true, 4000, null, 50)
-
-      if (Math.random() <= 0.2) {
-        this.game.sound.play('death')
-      } else {
-        this.game.sound.play('healing')
-      }
-
-      this.sprite.body.angularVelocity += Math.random() * 3 - 1.5
-    }, this)
+    this.sprite.body.onBeginContact.add(this.onBeginContactSprite, this)
   }
 
 
@@ -52,11 +34,37 @@ class GameState {
       this.sprite.body.y = this.world.centerY
   }
 
+
   update() {
   }
 
 
   render() {
+  }
+
+
+  onBeginContactSprite(block, blockB, shapeA, shapeB, equation) {
+      this.updateEmitter()
+      emitter.start(true, 4000, null, 50)
+
+      if (Math.random() <= 0.2) {
+        this.game.sound.play('death')
+      } else {
+        this.game.sound.play('healing')
+      }
+
+      this.sprite.body.angularVelocity += Math.random() * 3 - 1.5
+  }
+
+
+  updateEmitter() {
+      let emitter = this.emitter
+      emitter.setYSpeed(-this.sprite.body.velocity.y * 4)
+      emitter.setXSpeed(-1000 + Math.random() * 1000)
+
+      emitter.setScale(0.02, 0.2, 0.01, 0.2)
+      emitter.x = this.sprite.x / emitter.scale.x
+      emitter.y = this.sprite.y / emitter.scale.y
   }
 
 
