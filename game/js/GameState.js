@@ -45,7 +45,7 @@ class GameState {
 
   onBeginContactSprite(block, blockB, shapeA, shapeB, equation) {
       this.updateEmitter()
-      emitter.start(true, 4000, null, 50)
+      this.emitter.start(true, 4000, null, 50)
 
       if (Math.random() <= 0.2) {
         this.game.sound.play('death')
